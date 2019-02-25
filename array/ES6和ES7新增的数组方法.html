@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6和ES7新增的数组方法</title>
+</head>
+<body>
+<p>copyWithin 复制数组中一系列元素到同一数组指定的起始位置</p>
+<p>includes 如果数组中存在某个元素则返回true，否则返回false。ES7新增</p>
+<p>find 根据回调函数给定的条件从数组中查找元素，如果找到则返回该元素</p>
+<p>findIndex 根据回调函数给定的条件从数组中查找元素，如果找到则返回该元素在数组中的索引</p>
+<p>fill 用静态值填充数组</p>
+<p>from 根据已有数组创建一个新数组</p>
+<p>of 根据传入的参数创建一个新数组</p>
+<script type="text/javascript">
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    /***********************************************************************************************************/
+    // 使用from方法
+    // Array.from方法根据已有的数组创建一个新数组。比如，要复制numbers数组，可以这样做：
+    let numbers2 = Array.from(numbers);
+    console.log(numbers2)
+    // 还可以传入一个用来过滤值的函数，例子如下：
+    let evens = Array.from(numbers, x => (x % 2 == 0));
+    console.log(evens)
+    // 上面的代码会创建一个evens数组，其中只包含numbers数组中的偶数。
+    /***********************************************************************************************************/
+</script>
+</body>
+</html>

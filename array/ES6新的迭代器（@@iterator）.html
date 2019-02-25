@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ES6新的迭代器（@@iterator）</title>
+</head>
+<body>
+<script type="text/javascript">
+    var testNum = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    // 使用ES6新的迭代器（@@iterator）
+    let iterator = testNum[Symbol.iterator]();
+    console.log(iterator.next().value); // 1
+    console.log(iterator.next().value); // 2
+    // 然后，不断调用迭代器的next方法，就能依次得到数组中的值。testNum数组中有15个值，因此需要调用15次iterator.next().value。
+    // 数组中所有值都迭代完之后，iterator.next().value会返回undefined。
+    /***********************************************************************************************************/
+    // 数组的entries、keys和values方法
+    // entries方法返回包含键值对的@@iterator
+    // 使用集合、字典、散列表等数据结构时，能够取出键值对是很有用的。
+    let aEntries = testNum.entries(); // 得到键值对的迭代器
+    console.log(aEntries.next().value); // [0, 1] - 位置0的值为1
+    console.log(aEntries.next().value); // [1, 2] - 位置1的值为2
+    console.log(aEntries.next().value); // [2, 3] - 位置2的值为3
+
+    // keys方法返回包含数组索引的@@iterator
+    // 一旦没有可迭代的值，aKeys.next()就会返回一个value属性为undefined，done属性为true的对象。
+    // 如果done属性的值为false，就意味着还有可迭代的值。
+    let aKeys = testNum.keys(); // 得到数组索引的迭代器
+    console.log(aKeys.next()); // {value: 0, done: false }
+    console.log(aKeys.next()); // {value: 1, done: false }
+    console.log(aKeys.next()); // {value: 2, done: false }
+
+    // values方法返回的@@iterator则包含数组的值
+    let aValues = testNum.values();
+    console.log(aValues.next()); // {value: 1, done: false }
+    console.log(aValues.next()); // {value: 2, done: false }
+    console.log(aValues.next()); // {value: 3, done: false }
+</script>
+</body>
+</html>
