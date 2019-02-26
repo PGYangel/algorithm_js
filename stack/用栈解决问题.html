@@ -19,20 +19,21 @@
     /***********************************************************************************************************/
     // 从十进制到二进制
     // 要把十进制转化成二进制，我们可以将该十进制数字和2整除（二进制是满二进一），直到结果是0为止。
-    function divideBy2(decNumber){
+    function divideBy2(decNumber) {
         var remStack = new Stack(),
             rem,
             binaryString = '';
-        while (decNumber > 0){ //{1}
+        while (decNumber > 0) { //{1}
             rem = Math.floor(decNumber % 2); //{2}
             remStack.push(rem); //{3}
             decNumber = Math.floor(decNumber / 2); //{4}
         }
-        while (!remStack.isEmpty()){ //{5}
+        while (!remStack.isEmpty()) { //{5}
             binaryString += remStack.pop().toString();
         }
         return binaryString;
     }
+
     console.log(divideBy2(233));
     console.log(divideBy2(10));
     console.log(divideBy2(1000));
@@ -43,6 +44,86 @@
      * 数部分。最后，用pop方法把栈中的元素都移除，把出栈的元素变成连接成字符串（行{5}）。
      * **/
     /***********************************************************************************************************/
+    // 我们很容易修改之前的算法，使之能把十进制转换成任何进制。
+    // 可以传入其他任意进制的基数为参数
+    function baseConverter(decNumber, base) {
+        var remStack = new Stack(),
+            rem,
+            baseString = '',
+            digits = '0123456789ABCDEF'; //{6}
+        while (decNumber > 0) {
+            rem = Math.floor(decNumber % base);
+            remStack.push(rem);
+            decNumber = Math.floor(decNumber / base);
+        }
+        while (!remStack.isEmpty()) {
+            baseString += digits[remStack.pop()]; //{7}
+        }
+        return baseString;
+    }
+
+    console.log(baseConverter(100345, 2));
+    console.log(baseConverter(100345, 8));
+    console.log(baseConverter(100345, 16));
+    /**
+     * 我们只需要改变一个地方。在将十进制转成二进制时，余数是0或1；在将十进制转成八进制
+     * 时，余数是0到7之间的数；但是将十进制转成16进制时，余数是0到9之间的数字加上A、B、C、D、E
+     * 和F（对应10、11、12、13、14和15）。因此，我们需要对栈中的数字做个转化才可以（行6}和行{7}）。
+     * **/
+    /***********************************************************************************************************/
+</script>
+<script type="text/javascript">
+    // 平衡圆括号问题
+    // 核心思想：如果是"("就入栈，如果")"就弹出栈顶元素，最后看栈的长度是否为0；
+    /***********************************************************************************************************/
+    function generalBracketBalanced(str) {
+        var stack = new Stack();
+        var types = {
+            "(": ")",
+            "[": "]",
+            "{": "}"
+        };
+        var temp = "";
+        for (var i = 0; i < str.length; ++i) {
+            if (str[i] in types) {
+                stack.push(str[i]);
+            } else {
+                temp = stack.pop();
+                if (types[temp] != str[i]) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    console.log(generalBracketBalanced("[{]"));//false
+    console.log(generalBracketBalanced("[]{}()[(){}]"));//true
+    console.log(generalBracketBalanced("[[]{}()[(){}]"));//false
+    console.log(generalBracketBalanced("{{}{[]()}}"));//true
+    /***********************************************************************************************************/
+</script>
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    // 汉诺塔是一个印度的古老传说。有三个圆柱，其中一个圆柱上放着若干圆盘，
+    // 这些圆盘从上到下，直径递增，利用一个辅助圆柱，将原来柱子上的圆盘放到另一个柱子上，依旧是从上到下直径递增。
+    // 汉诺塔是一个经典的递归案例。
+    // 下面是递归方式解决
+    var hanoi = function (num, seatA, seatB, seatC) {
+        if (num > 0) {
+            hanoi(num - 1, seatA, seatC, seatB);
+            console.log('第' + num + '块 从位置 ' + seatA + ' 放到位置 ' + seatC);
+            hanoi(num - 1, seatB, seatA, seatC);
+        }
+    }
+    hanoi(3, "A", "B", "C");
+    /***********************************************************************************************************/
+    // 用栈解决汉诺塔问题
+    var towerA = new Stack();
+    var towerB = new Stack();
+    var towerC = new Stack();
+
+
 </script>
 </body>
 </html>
