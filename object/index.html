@@ -5,6 +5,17 @@
     <title>对象</title>
 </head>
 <body>
-
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    //深度克隆对象，这样新对象属性值改变不会影响原对象
+    var data = {name: '张三', age: 26};
+    var data2 = JSON.parse(JSON.stringify(data));
+    console.log(data);
+    console.log(data2);
+    data2.name = '李四';
+    console.log(data);
+    console.log(data2);
+    /***********************************************************************************************************/
+</script>
 </body>
 </html>
