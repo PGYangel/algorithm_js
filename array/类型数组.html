@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>类型数组</title>
+</head>
+<body>
+<p>与C和Java等其他语言不同，JavaScript数组不是强类型的，因此它可以存储任意类型的数据。</p>
+<p>而类型数组则用于存储单一类型的数据。它的语法是let myArray = new TypedArray (length)，其中TypedArray需替换为下表所列之一。</p>
+<table border="1" cellspacing="0" cellpadding="0" width="500">
+    <tr align="center"><td>类型数组</td><td>数据类型</td></tr>
+    <tr align="center"><td>Int8Array</td><td>8位二进制补码整数</td></tr>
+    <tr align="center"><td>Uint8Array</td><td>8位无符号整数</td></tr>
+    <tr align="center"><td>Uint8ClampedArray</td><td>8位无符号整数</td></tr>
+    <tr align="center"><td>Int16Array</td><td>16位二进制补码整数</td></tr>
+    <tr align="center"><td>Uint16Array</td><td>16位无符号整数</td></tr>
+    <tr align="center"><td>Int32Array</td><td>32位二进制补码整数</td></tr>
+    <tr align="center"><td>Uint32Array</td><td>32位无符号整数</td></tr>
+    <tr align="center"><td>Float32Array</td><td>32位IEEE浮点数</td></tr>
+    <tr align="center"><td>Float64Array</td><td>64位IEEE浮点数</td></tr>
+</table>
+<p>
+    代码示例如下：<br>
+    <code>
+        let length = 5;<br>
+        let int16 = new Int16Array(length);<br>
+        let array16 = [];<br>
+        array16.length = length;<br>
+        for (let i=0; i&lt;length; i++){<br>
+            int16[i] = i+1;<br>
+        }<br>
+        console.log(int16);
+    </code>
+</p>
+<p>使用WebGL API、进行位操作、处理文件和图像时，类型数组都可以大展拳脚。它用起来和 普通数组也毫无二致。</p>
+<script type="text/javascript">
+    let length = 5;
+    let int16 = new Int16Array(length);
+    let array16 = [];
+    array16.length = length;
+    for (let i = 0; i < length; i++) {
+        int16[i] = i + 1;
+    }
+    console.log(int16);
+</script>
+</body>
+</html>

@@ -72,6 +72,16 @@
     var negativeNumbers = [-3, -2, -1];
     var numbers = negativeNumbers.concat(zero, positiveNumbers);
     console.log("concat：" + numbers);//输出：[-3, -2, -1, 0, 1, 2, 3]
+    /***********************************************************************************************************/
+    // 输出数组为字符串
+    // toString和join方法
+    var strNum=[1,2,3,4,5,6,7]
+    // toString中间会以','分隔
+    console.log(strNum.toString());
+    // 如果想用一个不同的分隔符（比如-）把元素隔开，可以用join方法
+    var numbersString = strNum.join('-');
+    console.log(numbersString);
+    /***********************************************************************************************************/
 </script>
 </body>
 </html>
