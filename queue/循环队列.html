@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>循环队列</title>
+</head>
+<body>
+<p>循环队列的一个例子就是击鼓传花游戏（HotPotato）。<br>
+    在这个游戏中，孩子们围成一个圆圈，把花尽快地传递给旁边的人。<br>
+    某一时刻传花停止，这个时候花在谁手里，谁就退出圆圈结束游戏。<br>
+    重复这个过程，直到只剩一个孩子（胜者）。</p>
+<script src="Queue.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    // 在下面这个示例中，我们要实现一个模拟的击鼓传花游戏：
+    function hotPotato(nameList, num) {
+        let queue = new Queue(); // {1}
+        for (let i = 0; i < nameList.length; i++) {
+            queue.enqueue(nameList[i]); // {2}
+        }
+        let eliminated = '';
+        while (queue.size() > 1) {
+            for (let i = 0; i < num; i++) {
+                queue.enqueue(queue.dequeue()); // {3}
+            }
+            eliminated = queue.dequeue();// {4}
+            console.log(eliminated + '在击鼓传花游戏中被淘汰。');
+        }
+        return queue.dequeue();// {5}
+    }
+
+    let names = ['John', 'Jack', 'Camila', 'Ingrid', 'Carl'];
+    let winner = hotPotato(names, 7);
+    console.log('The winner is: ' + winner);
+    /**
+     * 实现一个模拟的击鼓传花游戏，要用到这一章开头实现的Queue类（行{1}）。我们会得到一
+     * 份名单，把里面的名字全都加入队列（行{2}）。给定一个数字，然后迭代队列。从队列开头移
+     * 除一项，再将其添加到队列末尾（行{3}），模拟击鼓传花（如果你把花传给了旁边的人，你被
+     * 淘汰的威胁立刻就解除了）。一旦传递次数达到给定的数字，拿着花的那个人就被淘汰了（从队
+     * 列中移除——行{4}）。最后只剩下一个人的时候，这个人就是胜者（行{5}）。
+     * **/
+
+    /***********************************************************************************************************/
+</script>
+</body>
+</html>
