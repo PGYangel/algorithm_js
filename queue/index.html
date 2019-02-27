@@ -5,6 +5,79 @@
     <title>队列</title>
 </head>
 <body>
-
+<p>队列是遵循FIFO（First In First Out，先进先出，也称为先来先服务）原则的一组有序的项。<br>
+    队列在尾部添加新元素，并从顶部移除元素。最新添加的元素必须排在队列的末尾。</p>
+<p>在现实中，最常见的队列的例子就是排队：</p>
+<p>Queue类和Stack类非常类似，只是添加和移除元素的原则不同</p>
+<p> enqueue(element(s))：向队列尾部添加一个（或多个）新的项。</p>
+<p> dequeue()：移除队列的第一（即排在队列最前面的）项，并返回被移除的元素。</p>
+<p> front()：返回队列中第一个元素——最先被添加，也将是最先被移除的元素。<br>
+    队列不做任何变动（不移除元素，只返回元素信息——与Stack类的peek方法非常类似）。</p>
+<p> isEmpty()：如果队列中不包含任何元素，返回true，否则返回false。</p>
+<p> size()：返回队列包含的元素个数，与数组的length属性类似。</p>
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    //创建队列
+    function Queue() {
+        var items = [];
+        /**
+         * push(element)
+         * @param element：添加的新元素
+         * 这个方法负责往栈里添加新元素，有一点很重要：该方法只添加元素到栈顶，也就是栈的末尾。
+         * **/
+        this.enqueue = function(element){
+            items.push(element);
+        };
+        /**
+         * dequeue()
+         * 从队列移除项。由于队列遵循先进先出原则，最先添加的项也是最先被移除的。
+         * **/
+        this.dequeue = function(){
+            return items.shift();
+        };
+        /**
+         * front()
+         * 查看队列头元素，返回队列最前面的项
+         * **/
+        this.front = function(){
+            return items[0];
+        };
+        /**
+         * isEmpty()
+         * 队列为空，它会返回true，否则返回false
+         * **/
+        this.isEmpty = function(){
+            return items.length == 0;
+        };
+        /**
+         * size()
+         * 获取队列长度
+         * **/
+        this.size = function(){
+            return items.length;
+        };
+        /**
+         * print()
+         * 打印队列元素
+         * **/
+        this.print = function(){
+            console.log(items.toString());
+        };
+    }
+    /***********************************************************************************************************/
+    // 使用队列
+    let queue = new Queue();
+    console.log(queue.isEmpty()); //输出true
+    queue.enqueue("John");
+    queue.enqueue("Jack");
+    queue.enqueue("Camila");
+    queue.print();//打印：John,Jack,Camila
+    console.log(queue.size()); //输出3
+    console.log(queue.isEmpty()); //输出false
+    queue.dequeue();
+    queue.dequeue();
+    queue.print();//打印：Camila
+    /***********************************************************************************************************/
+</script>
 </body>
 </html>
