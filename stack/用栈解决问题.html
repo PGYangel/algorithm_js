@@ -97,10 +97,11 @@
         return stack.isEmpty();
     }
 
-    console.log(generalBracketBalanced("[{]"));//false
-    console.log(generalBracketBalanced("[]{}()[(){}]"));//true
-    console.log(generalBracketBalanced("[[]{}()[(){}]"));//false
-    console.log(generalBracketBalanced("{{}{[]()}}"));//true
+    console.log(generalBracketBalanced("[}]"));//false
+    console.log(generalBracketBalanced("[]"));//true
+    // console.log(generalBracketBalanced("[]{}()[(){}]"));//true
+    // console.log(generalBracketBalanced("[[]{}()[(){}]"));//false
+    // console.log(generalBracketBalanced("{{}{[]()}}"));//true
     /***********************************************************************************************************/
 </script>
 <script type="text/javascript">
@@ -109,21 +110,17 @@
     // 这些圆盘从上到下，直径递增，利用一个辅助圆柱，将原来柱子上的圆盘放到另一个柱子上，依旧是从上到下直径递增。
     // 汉诺塔是一个经典的递归案例。
     // 下面是递归方式解决
-    var hanoi = function (num, seatA, seatB, seatC) {
+    var hanoi = function (num, moveS, fromS, toS) {
         if (num > 0) {
-            hanoi(num - 1, seatA, seatC, seatB);
-            console.log('第' + num + '块 从位置 ' + seatA + ' 放到位置 ' + seatC);
-            hanoi(num - 1, seatB, seatA, seatC);
+            hanoi(num - 1, moveS, toS, fromS);
+            console.log('第' + num + '块 从位置 ' + moveS + ' 放到位置 ' + toS);
+            hanoi(num - 1, fromS, moveS, toS);
         }
     }
     hanoi(3, "A", "B", "C");
     /***********************************************************************************************************/
     // 用栈解决汉诺塔问题
-    var towerA = new Stack();
-    var towerB = new Stack();
-    var towerC = new Stack();
-
-
+    
 </script>
 </body>
 </html>
