@@ -3,6 +3,7 @@ js算法基础
 
 -----------------------------------------------------------------------
 ## array 数组
+- [array 数组](https://zhangqijohn.github.io/basis/cj/test1.html)
 
 ## object 对象
 
