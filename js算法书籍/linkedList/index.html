@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>链表</title>
+</head>
+<body>
+<p>
+    要存储多个元素，数组（或列表）可能是最常用的数据结构。正如本书之前提到过的，每种<br>
+    语言都实现了数组。这种数据结构非常方便，提供了一个便利的[]语法来访问它的元素。然而，<br>
+    这种数据结构有一个缺点：（在大多数语言中）数组的大小是固定的，从数组的起点或中间插入<br>
+    或移除项的成本很高，因为需要移动元素（尽管我们已经学过的JavaScript的array类方法可以帮<br>
+    我们做这些事，但背后的情况同样是这样）。<br>
+</p>
+<p>
+    链表存储有序的元素集合，但不同于数组，链表中的元素在内存中并不是连续放置的。每个<br>
+    元素由一个存储元素本身的节点和一个指向下一个元素的引用（也称指针或链接）组成。下<br>
+</p>
+<p>
+    相对于传统的数组，链表的一个好处在于，添加或移除元素的时候不需要移动其他元素。然<br>
+    而，链表需要使用指针，因此实现链表时需要额外注意。数组的另一个细节是可以直接访问任何<br>
+    位置的任何元素，而要想访问链表中间的一个元素，需要从起点（表头）开始迭代列表直到找到<br>
+    所需的元素。<br>
+</p>
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    //创建链表
+    function LinkedList() {
+        /**
+         *LinkedList数据结构还需要一个Node辅助类
+         *Node类表示要加入列表的项
+         *它包含一个element属性，即要添加到列表的值
+         * 以及一个next属性，即指向列表中下一个节点项的指针
+        **/
+        let Node = function(element){
+            this.element = element;
+            this.next = null;
+        };
+        /**
+         * LinkedList类也有存储列表项的数量的length属性（内部/私有变量）
+         * **/
+        let length = 0;
+        /**
+         *另一个重要的点是，我们还需要存储第一个节点的引用。为此，可以把这个引用存储在一个称为head的变量中
+         * **/
+        let head = null;
+        /**
+         * 然后就是LinkedList类的方法。在实现这些方法之前，先来看看它们的职责。
+          append(element)：向列表尾部添加一个新的项。
+          insert(position, element)：向列表的特定位置插入一个新的项。
+          remove(element)：从列表中移除一项。
+          indexOf(element)：返回元素在列表中的索引。如果列表中没有该元素则返回-1。
+          removeAt(position)：从列表的特定位置移除一项。
+          isEmpty()：如果链表中不包含任何元素，返回true，如果链表长度大于0则返回false。
+          size()：返回链表包含的元素个数。与数组的length属性类似。
+          toString()：由于列表项使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值。
+         * **/
+
+        /**
+         * 向链表尾部追加元素
+         * 向LinkedList对象尾部添加一个元素时，可能有两种场景
+         * 列表为空，添加的是第一个元素
+         * 列表不为空，向其追加元素
+         * **/
+        this.append = function(element){
+            //首先需要做的是把element作为值传入，创建Node项
+            let node = new Node(element),
+                current; //{2}
+            /**
+             * 先来实现第一个场景：向为空的列表添加一个元素。当我们创建一个LinkedList对象时，head会指向null
+             * 如果head元素为null），就意味着在向列表添加第一个元素。
+             * 因此要做的就是让head元素指向node元素。下一个node元素将会自动成为null
+             * **/
+            if (head === null){
+                head = node;
+            } else {
+                /**
+                 * 要向列表的尾部添加一个元素，首先需要找到最后一个元素。
+                 * 我们只有第一个元素的引用
+                 * **/
+                current = head;
+                //因此需要循环访问列表，直到找到最后一项。
+                while(current.next){
+                    current = current.next;
+                }
+                //找到最后一项，将其next赋为node，建立链接
+                current.next = node;
+            }
+            length++; //更新列表的长度
+        };
+        /**
+         * 在任意位置插入元素
+         * **/
+        this.insert = function(position, element){
+            //检查越界值
+            if (position >= 0 && position <= length){
+                let node = new Node(element),
+                    current = head,
+                    previous,
+                    index = 0;
+                if (position === 0){ //在第一个位置添加
+                    node.next = current;
+                    head = node;
+                } else {
+                    while (index++ < position){
+                        previous = current;
+                        current = current.next;
+                    }
+                    node.next = current;
+                    previous.next = node;
+                }
+                length++; //更新列表的长度
+                return true;
+            } else {
+                return false;
+            }
+        };
+        /**
+         * 从链表中移除元素
+         * 移除元素也有两种场景：第一种是移除第一个元素
+         * 第二种是移除第一个以外的任一元素
+         * **/
+        this.removeAt = function(position){
+            //检查越界值
+            // 该方法要得到需要移除的元素的位置，就需要验证这个位置是有效的。
+            // 从0（包括0）到列表的长度（size – 1，因为索引是从零开始的）都是有效的位置。
+            // 如果不是有效的位置，就返回null（意即没有从列表中移除元素）。
+            if (position > -1 && position < length){
+                let current = head, // 创建一个对列表中第一个元素的引用
+                    previous, // 当前元素的前一个元素的引用
+                    index = 0; // 个用于内部控制和递增的index变量
+
+                if (position === 0){ // 从列表中移除第一个元素
+                    head = current.next;
+                } else {
+                    while (index++ < position){ // 需要依靠一个细节来迭代列表，直到到达目标位置
+                        previous = current; // 对当前元素的前一个元素的引用
+                        current = current.next; // 变量总是为对所循环列表的当前元素的引用
+                    }
+                    //将previous与current的下一项链接起来：跳过current，从而移除它
+                    previous.next = current.next;
+                }
+                length--;
+                return current.element;
+            } else {
+                return null;
+            }
+        };
+        /**
+         * 我们已经有一个移除给定位置的一个元素的removeAt方法了。现在有了indexOf方法，
+         * 如果传入元素的值，就能找到它的位置，然后调用removeAt方法并传入找到的位置。
+         * **/
+        this.remove = function(element){
+            let index = this.indexOf(element);
+            return this.removeAt(index);
+        };
+        /**
+         * indexOf方法接收一个元素的值，
+         * 如果在列表中找到它，就返回元素的位置，否则返回-1。
+         * **/
+        this.indexOf = function(element){
+            let current = head,
+                index = -1;
+            while (current) {
+                if (element === current.element) {
+                    return index;
+                }
+                index++;
+                current = current.next;
+            }
+            return -1;
+        };
+        /**
+         * 如果列表中没有元素，isEmpty方法就返回true，否则返回false。
+         * **/
+        this.isEmpty = function() {
+            return length === 0;
+        };
+        /**
+         * 列表的length是内部控制的，因为LinkedList是从头构建的
+         * **/
+        this.size = function() {
+            return length;
+        };
+        /**
+         * head变量是LinkedList类的私有变量（这意味着它不能在LinkedList实例外部被访问和更改，
+         * 只有通过LinkedList实例才可以）。但是，如果我们需要在类的实现外部循环访问列表，
+         * 就需要提供一种获取类的第一个元素的方法。
+         * **/
+        this.getHead = function(){
+            return head;
+        };
+        /**
+         * toString方法会把LinkedList对象转换成一个字符串。
+         * **/
+        this.toString = function(){
+            let current = head, //首先，要循环访问列表中的所有元素，就需要有一个起点，也就是head。把current变量当作索引
+                string = ''; //需要初始化用于拼接元素值的变量
+            while (current) { //循环访问列表中的每个元素
+                string +=current.element +(current.next ? 'n' : '');//拼接到字符串中
+                current = current.next; //继续迭代下一个元素
+            }
+            return string; //返回列表内容的字符串
+        };
+    }
+
+    let list = new LinkedList();
+    list.append(15);
+    list.append(10);
+</script>
+</body>
+</html>

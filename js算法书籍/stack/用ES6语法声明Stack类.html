@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用ES6语法声明Stack类</title>
+</head>
+<body>
+<p>在index.html我们创建了一个可以当作类来使用的Stack函数。JavaScript函数都有构造函数，可以用来模拟类的行为。<br>
+    我们声明了一个私有的items变量，它只能被Stack函数/类访问。然而，这个方法为每个类的实例都创建 一个items<br>
+    变量的副本。因此，如果要创建多个Stack实例，它就不太适合了。</p>
+<script type="text/javascript">
+    /***********************************************************************************************************/
+    class Stack {
+        constructor() {
+            this.items = []//行{1}
+        }
+        push(element){
+            this.items.push(element);
+        }
+        //其他方法
+    }
+    /**
+     * 我们只是用ES6的简化语法把Stack函数转换成Stack类。这种方法不能像其他语言（Java、C++、C#）
+     * 一样直接在类里面声明变量，只能在类的构造函数constructor里声明（行{1}），
+     * 在类的其他函数里用this.nameofVariable就可以引用这个变量。
+     * 尽管代码看起来更简洁、更漂亮，变量items却是公共的。ES6的类是基于原型的。
+     * 虽然基于原型的类比基于函数的类更节省内存，也更适合创建多个实例，却不能够声明私有属性（变量）或方法。
+     * 而且，在这种情况下，我们希望Stack类的用户只能访问暴露给类的方法。
+     * 否则，就有可能从栈的中间移除元素（因为我们用数组来存储其值），这不是我们希望看到的。
+     * **/
+    /***********************************************************************************************************/
+    // ES6语法创建私有属性。
+    /**
+     * 1. 用ES6的限定作用域Symbol实现类
+     * ES6新增了一种叫作Symbol的基本类型，它是不可变的，可以用作对象的属性。看看怎么用它来在Stack类中声明items属性：
+     * **/
+    let _items = Symbol(); //{1}
+    class Stack2 {
+        constructor () {
+            this[_items] = []; //{2}
+        }
+        push = function (element) {
+            this[_items].push(element)
+        };
+        print = function () {
+            console.log(this[_items].toString());
+        };
+        // 其他方法
+    }
+    /**
+     * 在上面的代码中，我们声明了Symbol类型的变量_items（行{1}），在类的constructor函数中初始化它的值（行{2}）。
+     * 要访问_items，只需把所有的this.items都换成this[_items]。
+     * 这种方法创建了一个假的私有属性，因为ES6新增的Object.getOwnPropertySymbols方法能够取到类里面声明的所有Symbols属性。
+     * 下面是一个破坏Stack类的例子：
+     * **/
+    let stack = new Stack2();
+    stack.push(5);
+    stack.push(8);
+    let objectSymbols = Object.getOwnPropertySymbols(stack);
+    console.log(objectSymbols.length); // 1
+    console.log(objectSymbols); // [Symbol()]
+    console.log(objectSymbols[0]); // Symbol()
+    stack[objectSymbols[0]].push(1);
+    stack.print(); //输出 5, 8, 1
+    /**
+     * 从以上代码可以看到，访问stack[objectSymbols[0]]是可以得到_items的。
+     * 并且，_items属性是一个数组，可以进行任意的数组操作，比如从中间删除或添加元素。
+     * 我们操作的是栈，不应该出现这种行为。
+     * 还有第三个方案。
+     * **/
+    /**
+     * 2. 用ES6的WeakMap实现类
+     * 有一种数据类型可以确保属性是私有的，这就是WeakMap。
+     * WeakMap可以存储键值对，其中键是对象，值可以是任意数据类型。
+     * 如果用WeakMap来存储items变量，Stack类就是这样的：
+     * **/
+    const items3 = new WeakMap(); //{1}
+    class Stack3 {
+        constructor () {
+            items3.set(this, []); //{2}
+        }
+        push(element) {
+            let s = items3.get(this); //{3}
+            s.push(element);
+        }
+        pop() {
+            let s = items3.get(this);
+            let r = s.pop();
+            return r;
+        }
+        //其他方法
+    }
+    /**
+     * 行{1}，声明一个WeakMap类型的变量items。
+     * 行{2}，在constructor中，以this（Stack类自己的引用）为键，把代表栈的数组存入items3。
+     * 行{3}，从WeakMap中取出值，即以this为键（行{2}设置的）从items3中取值。
+     * **/
+
+    /**
+     * 现在我们知道，items在Stack类里是真正的私有属性了，但还有一件事要做。items现在
+     * 仍然是在Stack类以外声明的，因此谁都可以改动它。我们要用一个闭包（外层函数）
+     * 把Stack类包起来，这样就只能在这个函数里访问WeakMap：
+     * **/
+    let Stack4 = (function () {
+        const items4 = new WeakMap();
+        class Stack4 {
+            constructor () {
+                items4.set(this, []);
+            }
+            push(element) {
+                let s = items4.get(this);
+                s.push(element);
+            }
+            print = function () {
+                let s = items4.get(this);
+                console.log(s.toString());
+            };
+            //其他方法
+        }
+        return Stack4; //{5}
+    })();
+    let stack4 = new Stack4();
+    stack4.push(5);
+    stack4.push(8);
+    stack4.print();//输出 5, 8
+    /**
+     * 当Stack4函数里的构造函数被调用时，会返回Stack类的一个实例（行{5}）。
+     * 用这种方法的话，扩展类无法继承私有属性。
+     * **/
+    /***********************************************************************************************************/
+</script>
+</body>
+</html>

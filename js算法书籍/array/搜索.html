@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+</head>
+<body>
+<p>搜索有两个方法：</p>
+<p>indexOf方法返回与参数匹配的第一个元素的索引，</p>
+<p>lastIndexOf返回 与参数匹配的最后一个元素的索引。</p>
+<p>ECMAScript 6——find和findIndex方法：find和findIndex方法接收一个回调函数，搜索一个满足回调函数条件的值。</p>
+<p>ECMAScript 7——使用includes方法：如果数组里存在某个元素，includes方法会返回true，否则返回false。</p>
+<script type="text/javascript">
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    /***********************************************************************************************************/
+    console.log(numbers.indexOf(10));
+    console.log(numbers.indexOf(100));
+    // 在这个示例中第一行的输出是9第二行的输出是-1（因为100不在数组）。
+
+    numbers.push(10);
+    console.log(numbers.lastIndexOf(10));
+    console.log(numbers.lastIndexOf(100));
+    // 我们往数组里加入了一个新的元素10，因此第二行会输出15（数组中的元素是1到15，
+    // 还有10），第三行会输出-1（因为100不在数组里）。
+    /***********************************************************************************************************/
+    // ECMAScript 6——find和findIndex方法
+    function multipleOf13(element, index, array) {
+        return (element % 13 == 0) ? true : false;
+    }
+    console.log(numbers.find(multipleOf13));
+    console.log(numbers.findIndex(multipleOf13));
+    // 上面的例子里，我们要从数组里找一个13的倍数。
+    // find和findIndex的不同之处在于，find方法返回第一个满足条件的值，
+    // findIndex方法则返回这个值在数组里的索引。
+    // 如果没有满足条件的值，find会返回undefined，而findIndex返回-1。
+    /***********************************************************************************************************/
+    // ECMAScript 7——使用includes方法
+    console.log(numbers.includes(15));
+    console.log(numbers.includes(20));
+    // 例子里的includes(15)返回true，includes(20)返回false，因为numbers数组里没有20。
+
+    // 如果给includes方法传入一个起始索引，搜索会从索引指定的位置开始：
+    let numbers2 = [7, 6, 5, 4, 3, 2, 1];
+    console.log(numbers2.includes(4, 5));
+    // 上面的例子输出为false，因为数组索引5之后的元素不包含4。
+    /***********************************************************************************************************/
+</script>
+</body>
+</html>
