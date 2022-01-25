@@ -14,7 +14,7 @@ export default (str) => {
   let arr = str.split(' ')
   // 第二种写法：使用正则，考察split可以使用正则
   // let arr = str.split(/\s/g)
-  // 第三种写法：使用match方法
+  // 第三种写法：使用match方法，match 方法可在字符串内检索指定的值，或找到一个或多个正则表达式的匹配
   // let arr = str.match(/[\w']+/g)
 
   let reverse = arr.map((item) => {
@@ -25,3 +25,19 @@ export default (str) => {
   result = reverse.join(' ')
   return result
 }
+
+// // 优雅的写法
+// export default (str) => {
+//   return str.split(' ').map(item => item.split('').reverse().join('')).join(' ')
+// }
+
+/* 
+知识点：
+String.prototype.split：字符串拆分成数组
+String.prototype.match：字符串匹配正则
+Array.prototype.map：数组map方法循环的使用
+Array.prototype.reverse：反转数组API的使用
+Array.prototype.join：拼接数组的使用
+
+熟悉基础API，并实践到具体应用场景
+*/
