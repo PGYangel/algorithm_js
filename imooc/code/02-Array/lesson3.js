@@ -24,11 +24,11 @@ export default (flowerbed, n) => {
     加上后数组就成[0,1,0,0,0,0,0,1,0]，这样不用考虑边界判断问题
     种上一棵后需要用新的数组重新计算000的情况，不然会遇见1000001中间五个的情况，这种情况只能种2，不重新计算会得到3个000情况。
     */
-    let result = true
     let num = n
     // 前后加上0
     flowerbed.unshift(0)
     flowerbed.push(0)
+
     function planting(arr, index) {
         // 输入的三个都为0才对num减少，并对原数组对应种植数据改为1
         if (!arr.includes(1)) {
@@ -39,13 +39,11 @@ export default (flowerbed, n) => {
     for (let i = 0, il = flowerbed.length - 2; i < il; i++) {
         let arr = flowerbed.slice(i, i + 3)
         planting(arr, i + 1)
+        if (num === 0) {
+            return true
+        }
     }
-    if (num === 0) {
-        result = true
-    } else {
-        result = false
-    }
-    return result
+    return false
 }
 
 /* 
