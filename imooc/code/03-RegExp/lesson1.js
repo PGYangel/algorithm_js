@@ -16,6 +16,8 @@
 输出：true
 */
 
-export default () => {
-
+export default (str) => {
+    let result = true
+    
+    return result
 }
