@@ -7,6 +7,13 @@
 输出：true
 解释：可由子字符串“ab”重复两次构成。
 
+示例2：
+输入：'aba'
+输出：false
+
+示例3：
+输入：'abcabcabcabc'
+输出：true
 */
 
 export default () => {
