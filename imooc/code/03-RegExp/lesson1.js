@@ -17,7 +17,6 @@
 */
 
 export default (str) => {
-    let result = true
-    
-    return result
+    let reg = /^(\w+)\1+$/
+    return reg.test(str)
 }
