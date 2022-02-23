@@ -1,7 +1,7 @@
 import lesson1 from '../../code/04-sort/lesson1'
 
 test('lesson1', () => {
-    expect(lesson1([2, 4, 5, 1, 3])).toEqual([1, 2, 3, 4, 5])
+    expect(lesson1([2, 4, 4, 5, 1, 3, 4])).toEqual([1, 2, 3, 4, 4, 4, 5])
 })
 
 test('lesson1', () => {
