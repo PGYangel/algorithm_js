@@ -16,5 +16,21 @@
 */
 
 export default (arr) => {
+    arr.sort()
+    let result = []
+    let even = 0; // 偶数游标
+    let odd = 1; // 奇数游标
 
+    for (let i = 0, len = arr.length; i < len; i++) {
+        // 奇数
+        if (arr[i] % 2 === 1) {
+            result[odd] = arr[i]
+            odd += 2
+        } else {
+            // 偶数
+            result[even] = arr[i]
+            even += 2
+        }
+    }
+    return result
 }
