@@ -1,10 +1,6 @@
-import MyCircularQueue from '../../code/07-queue/lesson2'
+import leastInterval from '../../code/07-queue/lesson2'
 
-// test('lesson2', () => {
-//     let queue = new MyCircularQueue(4)
-//     queue.enQueue(2)
-//     expect(queue.isFull()).toBe(false)
-//     expect(queue.enQueue(1)).toBe(true)
-//     expect(queue.Front()).toBe(2)
-//     expect(queue.Rear()).toBe(1)
-// })
+test('leastInterval', () => {
+    expect(leastInterval(['A', 'A', 'A', 'B', 'B', 'B'], 2)).toBe(8)
+    expect(leastInterval(['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D'], 2)).toBe(8)
+})
